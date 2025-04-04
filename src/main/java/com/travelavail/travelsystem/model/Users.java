@@ -10,7 +10,8 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "user_id")
+    private int user_id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -39,7 +40,7 @@ public class Users {
     private String image_url;
 
     public Users() {
-        this.created_at = LocalDateTime.now(); // SetS created date and time automatically
+        this.created_at = LocalDateTime.now(); // Sets created date and time automatically
     }
 
     public enum Role {
@@ -51,12 +52,12 @@ public class Users {
     }
 
     // Getters and Setters
-    public int getId() {
-        return id;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
