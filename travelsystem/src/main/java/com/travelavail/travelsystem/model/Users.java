@@ -5,13 +5,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users") 
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int user_id;
+    private Long user_id; 
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -29,10 +29,10 @@ public class Users {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.TRAVELER;  // Default role as TRAVELER
+    private Role role = Role.TRAVELER; // Default role as TRAVELER
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;  // Default status as PENDING
+    private Status status = Status.PENDING; // Default status as PENDING
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime created_at;
@@ -40,7 +40,14 @@ public class Users {
     private String image_url;
 
     public Users() {
-        this.created_at = LocalDateTime.now(); // Sets created date and time automatically
+        this.created_at = LocalDateTime.now(); // Automatically set creation time
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.created_at == null) {
+            this.created_at = LocalDateTime.now();
+        }
     }
 
     public enum Role {
@@ -52,11 +59,12 @@ public class Users {
     }
 
     // Getters and Setters
-    public int getUser_id() {
+
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
@@ -96,9 +104,11 @@ public class Users {
         return password;
     }
 
-    // Password Hashing
+    // Password Hashing for Better Security
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = encoder.encode(password);
     }
 
     public Role getRole() {

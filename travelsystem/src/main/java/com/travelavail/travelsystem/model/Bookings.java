@@ -2,7 +2,6 @@ package com.travelavail.travelsystem.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "bookings")
@@ -11,42 +10,74 @@ public class Bookings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booking_id")
-    private int booking_id;
+    private Long booking_id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // Foreign key referencing Users
-    private Users user;
-
-    @Column(nullable = false)
-    private String booking_type;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status status = Status.UPCOMING; // Default status
-
-    @Column(nullable = false, updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") // Correct format for JSON serialization
+    @Column(name = "booking_date")
     private LocalDateTime booking_date;
 
-    @Column(nullable = false)
-    private double total_amount;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "booking_type")
+    private BookingType bookingType = BookingType.NOT_SET;
 
-    // Constructor with automatic date-time setting
-    public Bookings() {
-        this.booking_date = LocalDateTime.now(); // Sets created date and time automatically
-    }
+    @Column(name = "total_amount")
+    private double totalAmount;
 
-    public enum Status {
-        UPCOMING, COMPLETED, CANCELLED, RESCHEDULED
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private Users user;
+
+    @ManyToOne
+    @JoinColumn(name = "mood_id", referencedColumnName = "mood_id")
+    private Moods mood;
+
+    @ManyToOne
+    @JoinColumn(name = "flight_id", referencedColumnName = "flight_id")
+    private FlightBookings flight;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_id", referencedColumnName = "hotel_id")
+    private HotelBookings hotel;
+
+    @ManyToOne
+    @JoinColumn(name = "carRental_id", referencedColumnName = "carRental_id")
+    private CarRentalBookings carRental;
+
+    public enum BookingType {
+        NOT_SET, FLIGHT, HOTEL, CAR_RENTAL
     }
 
     // Getters and Setters
-    public int getBookingId() {
+
+    public Long getBooking_id() {
         return booking_id;
     }
 
-    public void setBookingId(int booking_id) {
+    public void setBooking_id(Long booking_id) {
         this.booking_id = booking_id;
+    }
+
+    public LocalDateTime getBooking_date() {
+        return booking_date;
+    }
+
+    public void setBooking_date(LocalDateTime booking_date) {
+        this.booking_date = booking_date;
+    }
+
+    public BookingType getBookingType() {
+        return bookingType;
+    }
+
+    public void setBookingType(BookingType bookingType) {
+        this.bookingType = bookingType;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public Users getUser() {
@@ -57,35 +88,35 @@ public class Bookings {
         this.user = user;
     }
 
-    public String getBookingType() {
-        return booking_type;
+    public Moods getMood() {
+        return mood;
     }
 
-    public void setBookingType(String booking_type) {
-        this.booking_type = booking_type;
+    public void setMood(Moods mood) {
+        this.mood = mood;
     }
 
-    public Status getStatus() {
-        return status;
+    public FlightBookings getFlight() {
+        return flight;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setFlight(FlightBookings flight) {
+        this.flight = flight;
     }
 
-    public LocalDateTime getBookingDate() {
-        return booking_date;
+    public HotelBookings getHotel() {
+        return hotel;
     }
 
-    public void setBookingDate(LocalDateTime booking_date) {
-        this.booking_date = booking_date;
+    public void setHotel(HotelBookings hotel) {
+        this.hotel = hotel;
     }
 
-    public double getTotalAmount() {
-        return total_amount;
+    public CarRentalBookings getCarRental() {
+        return carRental;
     }
 
-    public void setTotalAmount(double total_amount) {
-        this.total_amount = total_amount;
+    public void setCarRental(CarRentalBookings carRental) {
+        this.carRental = carRental;
     }
 }
