@@ -1,4 +1,4 @@
-package com.travelavail.travelsystem.model;
+package com.travelavail.travelsystem.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

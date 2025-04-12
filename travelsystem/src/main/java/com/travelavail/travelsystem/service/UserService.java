@@ -1,33 +1,46 @@
 package com.travelavail.travelsystem.service;
 
-import com.travelavail.travelsystem.model.Users;
-import com.travelavail.travelsystem.repository.UserRepository;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import java.util.List;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.travelavail.travelsystem.dto.LoginDTO;
+import com.travelavail.travelsystem.dto.UserDTO;
+import com.travelavail.travelsystem.entity.Users;
+import com.travelavail.travelsystem.repository.UserRepository;
+import com.travelavail.travelsystem.response.LoginResponse;
+
 @Service
-@AllArgsConstructor
-public class UserService implements UserDetailsService {
+public interface UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        
-        Optional<Users> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            var userObj = user.get();
-            // Builds user details object with roles and other required information
-            return User.builder()
-                    .username(userObj.getUsername()) 
-                    .password(userObj.getPassword())
-                    .roles(userObj.getRole().name()) 
-                    .build();
-        } else {
-            throw new UsernameNotFoundException("User not found with email: " + email);
-        }
+    private final UserRepository userRepository;
+
+public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    this.userRepository = userRepository;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+}
+
+    public List<Users> getUser() {
+        return userRepository.findAll();
     }
+
+    public Users getUser(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public Users addUser(Users user) {
+        return userRepository.save(user);
+    }
+
+    Users updateUser(Users user);
+
+    void deleteUser(Long id);
+
+    // Other
+    String addUser(UserDTO userDTO);
+
+    LoginResponse loginUser(LoginDTO loginDTO);
 }

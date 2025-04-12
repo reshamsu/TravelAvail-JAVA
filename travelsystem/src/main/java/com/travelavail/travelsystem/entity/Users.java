@@ -1,4 +1,4 @@
-package com.travelavail.travelsystem.model;
+package com.travelavail.travelsystem.entity;
 
 import java.time.LocalDateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +11,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long user_id; 
+    private Long userId;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -29,43 +29,40 @@ public class Users {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.TRAVELER; // Default role as TRAVELER
+    private Role role = Role.USER; // Default role as USER
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING; // Default status as PENDING
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    private String image_url;
+    private String imageUrl;
+
+   public Users(Long userId, String username, String firstname, String lastname, String email, String password,
+            Role role, Status status, LocalDateTime createdAt, String imageUrl) {
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.imageUrl = imageUrl;
+    }
 
     public Users() {
-        this.created_at = LocalDateTime.now(); // Automatically set creation time
-    }
 
-    @PrePersist
-    public void prePersist() {
-        if (this.created_at == null) {
-            this.created_at = LocalDateTime.now();
-        }
-    }
-
-    public enum Role {
-        ADMIN, TRAVELER
-    }
-
-    public enum Status {
-        DEFAULT, APPROVED, PENDING, REJECTED
     }
 
     // Getters and Setters
-
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -104,7 +101,7 @@ public class Users {
         return password;
     }
 
-    // Password Hashing for Better Security
+    // Automatic Password Encoding
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public void setPassword(String password) {
@@ -128,18 +125,34 @@ public class Users {
     }
 
     public LocalDateTime getCreatedAt() {
-        return created_at;
+        return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
+
+    public enum Role {
+        ADMIN, USER
+    }
+
+    public enum Status {
+        DEFAULT, APPROVED, PENDING, REJECTED
+    }
+
+    @Override
+    public String toString() {
+        return "Users [userId=" + userId + ", username=" + username + ", firstname=" + firstname + ", lastname="
+                + lastname + ", email=" + email + ", password=" + password + ", role=" + role + ", status=" + status
+                + ", createdAt=" + createdAt + ", imageUrl=" + imageUrl + "]";
+    }
+
 }

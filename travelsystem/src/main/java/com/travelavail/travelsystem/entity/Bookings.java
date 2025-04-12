@@ -1,4 +1,4 @@
-package com.travelavail.travelsystem.model;
+package com.travelavail.travelsystem.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ public class Bookings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booking_id")
-    private Long booking_id;
+    private Long bookingId;
 
     @Column(name = "booking_date")
     private LocalDateTime booking_date;
@@ -22,6 +22,9 @@ public class Bookings {
     @Column(name = "total_amount")
     private double totalAmount;
 
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private Users user;
@@ -31,36 +34,44 @@ public class Bookings {
     private Moods mood;
 
     @ManyToOne
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    private Payments payments;
+
+    @ManyToOne
     @JoinColumn(name = "flight_id", referencedColumnName = "flight_id")
-    private FlightBookings flight;
+    private Flights flight;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", referencedColumnName = "hotel_id")
-    private HotelBookings hotel;
+    private Hotels hotel;
 
     @ManyToOne
     @JoinColumn(name = "carRental_id", referencedColumnName = "carRental_id")
-    private CarRentalBookings carRental;
+    private CarRentals carRental;
 
     public enum BookingType {
         NOT_SET, FLIGHT, HOTEL, CAR_RENTAL
     }
 
+    public enum BookingStatus {
+        PENDING, COMPLETED, CANCELLED
+    }
+
     // Getters and Setters
 
     public Long getBooking_id() {
-        return booking_id;
+        return bookingId;
     }
 
     public void setBooking_id(Long booking_id) {
-        this.booking_id = booking_id;
+        this.bookingId = booking_id;
     }
 
     public LocalDateTime getBooking_date() {
         return booking_date;
     }
 
-    public void setBooking_date(LocalDateTime booking_date) {
+    public void setBookingDate(LocalDateTime booking_date) {
         this.booking_date = booking_date;
     }
 
@@ -96,27 +107,31 @@ public class Bookings {
         this.mood = mood;
     }
 
-    public FlightBookings getFlight() {
+    public void setStatus(BookingStatus status) {
+        this.status = status;
+    }
+
+    public Flights getFlight() {
         return flight;
     }
 
-    public void setFlight(FlightBookings flight) {
+    public void setFlight(Flights flight) {
         this.flight = flight;
     }
 
-    public HotelBookings getHotel() {
+    public Hotels getHotel() {
         return hotel;
     }
 
-    public void setHotel(HotelBookings hotel) {
+    public void setHotel(Hotels hotel) {
         this.hotel = hotel;
     }
 
-    public CarRentalBookings getCarRental() {
+    public CarRentals getCarRental() {
         return carRental;
     }
 
-    public void setCarRental(CarRentalBookings carRental) {
+    public void setCarRental(CarRentals carRental) {
         this.carRental = carRental;
     }
 }

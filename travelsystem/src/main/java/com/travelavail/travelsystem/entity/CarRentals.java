@@ -1,12 +1,12 @@
-package com.travelavail.travelsystem.model;
+package com.travelavail.travelsystem.entity;
 
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "car_rental_bookings")
-public class CarRentalBookings {
+@Table(name = "carrental_bookings")
+public class CarRentals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package com.travelavail.travelsystem.model;
+package com.travelavail.travelsystem.entity;
 
 import java.time.LocalDateTime;
 
@@ -6,26 +6,26 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "hotel_bookings")
-public class HotelBookings {
+public class Hotels {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hotel_id")
     private Long hotel_id;
 
-    private String hotel_name;
-    private String located_city;
+    private String destinationHotelName;
     private LocalDateTime checkin_date;
     private LocalDateTime checkout_date;
-    private int rooms;
+    private String location;
+    private int available_rooms;
+    private double pricePerNight;
     private int guests;
+    private Float rating;
     private String image_url;
 
     @ManyToOne
     @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
     private Bookings booking;
-
-    // Getters and Setters
 
     public Long getHotel_id() {
         return hotel_id;
@@ -35,20 +35,12 @@ public class HotelBookings {
         this.hotel_id = hotel_id;
     }
 
-    public String getHotel_name() {
-        return hotel_name;
+    public String getDestinationHotelName() {
+        return destinationHotelName;
     }
 
-    public void setHotel_name(String hotel_name) {
-        this.hotel_name = hotel_name;
-    }
-
-    public String getLocated_city() {
-        return located_city;
-    }
-
-    public void setLocated_city(String located_city) {
-        this.located_city = located_city;
+    public void getDestinationHotelName(String destinationHotelName) {
+        this.destinationHotelName = destinationHotelName;
     }
 
     public LocalDateTime getCheckin_date() {
@@ -67,12 +59,28 @@ public class HotelBookings {
         this.checkout_date = checkout_date;
     }
 
-    public int getRooms() {
-        return rooms;
+    public String getLocation() {
+        return location;
     }
 
-    public void setRooms(int rooms) {
-        this.rooms = rooms;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getAvailable_rooms() {
+        return available_rooms;
+    }
+
+    public void setAvailable_rooms(int available_rooms) {
+        this.available_rooms = available_rooms;
+    }
+
+    public double getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public void setPricePerNight(double pricePerNight) {
+        this.pricePerNight = pricePerNight;
     }
 
     public int getGuests() {
@@ -81,6 +89,14 @@ public class HotelBookings {
 
     public void setGuests(int guests) {
         this.guests = guests;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 
     public String getImage_url() {

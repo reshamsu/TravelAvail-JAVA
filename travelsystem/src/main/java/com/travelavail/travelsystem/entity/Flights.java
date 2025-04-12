@@ -1,4 +1,4 @@
-package com.travelavail.travelsystem.model;
+package com.travelavail.travelsystem.entity;
 
 import java.time.LocalDateTime;
 
@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "flight_bookings")
-public class FlightBookings {
+public class Flights {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,19 +14,18 @@ public class FlightBookings {
     private Long flight_id;
 
     private String airline_name;
+    private String airline_class;
     private String flight_number;
-    private String departure_airport;
-    private String arrival_airport;
+    private String departureAirport;
+    private String arrivalAirport;
     private LocalDateTime departure_date;
     private LocalDateTime return_date;
     private int passengers;
-    private String airline_class;
+    private String image_url;
 
     @ManyToOne
     @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
     private Bookings booking;
-
-    // Getters and Setters
 
     public Long getFlight_id() {
         return flight_id;
@@ -44,6 +43,14 @@ public class FlightBookings {
         this.airline_name = airline_name;
     }
 
+    public String getAirline_class() {
+        return airline_class;
+    }
+
+    public void setAirline_class(String airline_class) {
+        this.airline_class = airline_class;
+    }
+
     public String getFlight_number() {
         return flight_number;
     }
@@ -53,19 +60,19 @@ public class FlightBookings {
     }
 
     public String getDeparture_airport() {
-        return departure_airport;
+        return departureAirport;
     }
 
     public void setDeparture_airport(String departure_airport) {
-        this.departure_airport = departure_airport;
+        this.departureAirport = departure_airport;
     }
 
     public String getArrival_airport() {
-        return arrival_airport;
+        return arrivalAirport;
     }
 
     public void setArrival_airport(String arrival_airport) {
-        this.arrival_airport = arrival_airport;
+        this.arrivalAirport = arrival_airport;
     }
 
     public LocalDateTime getDeparture_date() {
@@ -92,12 +99,12 @@ public class FlightBookings {
         this.passengers = passengers;
     }
 
-    public String getAirline_class() {
-        return airline_class;
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setAirline_class(String airline_class) {
-        this.airline_class = airline_class;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public Bookings getBooking() {
@@ -107,5 +114,7 @@ public class FlightBookings {
     public void setBooking(Bookings booking) {
         this.booking = booking;
     }
+
+
 
 }

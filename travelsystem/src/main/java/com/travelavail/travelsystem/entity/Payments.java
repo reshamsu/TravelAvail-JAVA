@@ -1,4 +1,4 @@
-package com.travelavail.travelsystem.model;
+package com.travelavail.travelsystem.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
-    private Long payment_id;
+    private Long paymentId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
@@ -44,11 +44,11 @@ public class Payments {
     // Getters and Setters
 
     public Long getPayment_id() {
-        return payment_id;
+        return paymentId;
     }
 
     public void setPayment_id(Long payment_id) {
-        this.payment_id = payment_id;
+        this.paymentId = payment_id;
     }
 
     public PaymentMethod getPaymentMethod() {
